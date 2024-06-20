@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}"
+self.__REACT_LOADABLE_MANIFEST='{"components\\\\lazyImage\\\\lazyImage.tsx -> next/image":{"id":6648,"files":["static/chunks/648.0b10cabfae71f59d.js"]}}';

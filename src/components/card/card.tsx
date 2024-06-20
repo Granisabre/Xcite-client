@@ -1,7 +1,18 @@
-import { Suspense } from "react";
 import { LazyImage } from "../lazyImage/lazyImage";
 
-export const Card = ({ cardData, width = 200, removeImage = (data: any) => () => {} }) => {
+export type TCardData = {
+  url: string;
+  thumbnailUrl: string;
+  title: string;
+}
+
+export type TProps = {
+  cardData: TCardData;
+  width?: number;
+  removeImage: (a:any) => () => void;
+}
+
+export const Card = ({ cardData, width = 200, removeImage = (data) => () => {} }: TProps) => {
   return (
     <div className={`rounded-xl w-[${width}px] overflow-hidden p-xs bg-yellow-500
     border-2 border-solid border-yellow-800
@@ -13,7 +24,7 @@ export const Card = ({ cardData, width = 200, removeImage = (data: any) => () =>
         <LazyImage
           src={cardData.thumbnailUrl}
           loading="lazy"
-          alt="hi bob"
+          alt="Image"
           width={width}
           height={width}
         />

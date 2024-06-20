@@ -4,10 +4,10 @@
  * @param {String} path a string notation of the path to walk example prop.prop1.prop2
  * @returns the value at the items[path]
  */
-export const walkPropsPath = (item, path) => {
+export const walkPropsPath = (item: any, path: string): any => {
     const remaining = path ? path.split('.') : []
     if (!remaining[0] || !item) return item // no path remaining or item is undefined, return current value
 
-    const next = remaining.shift()
+    const next: any = remaining.shift()
     return walkPropsPath(item[next], remaining.join('.'))
 }

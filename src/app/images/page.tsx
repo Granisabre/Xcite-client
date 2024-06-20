@@ -1,12 +1,14 @@
 'use client'
 import { getImageData } from "@/api/image"
-import { Card } from "@/components/card/card"
+import { Card, TCardData } from "@/components/card/card"
 import { Page } from "@/components/page/pageComponent"
 import { useEffect, useState } from "react"
 
+export type TImageData = TCardData
+
 export default function Images () {
     const [ page, setPage ] = useState(0)
-    const [ imageData, setImageData ] = useState([])
+    const [ imageData, setImageData ] = useState([] as any[])
 
     useEffect(() => {
         window.addEventListener('scroll', () => {
@@ -25,15 +27,13 @@ export default function Images () {
     useEffect(() => {
         getImageData(page)
         .then(data =>
-            setImageData((existing) => ([...existing, ...data ]))
+            setImageData((existing: TImageData[]) => ([...existing, ...data ]))
         )
     }, [page])
 
-    const handleRemoveImage = (setImageData) => (data) => () => {
-        console.log('data', data)
+    const handleRemoveImage = (setImageData: (S:any) => void) => (data: TCardData) => () => {
         const index = imageData.indexOf(data)
         imageData.splice(index, 1)
-        console.log('data2', index)
         setImageData(() => ([...imageData]))
     }
 

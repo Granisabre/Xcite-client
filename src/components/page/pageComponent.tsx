@@ -1,4 +1,10 @@
-export const Page = ({ title, children, className }) => {
+export type TProps = {
+    title: string;
+    children: React.ReactNode;
+    className?: string;
+}
+
+export const Page = ({ title, children, className }: TProps) => {
     return <div className={`p-4 min-h-full ${className}`} >
         <div className="flex" >
             <a href="/" >Back</a>

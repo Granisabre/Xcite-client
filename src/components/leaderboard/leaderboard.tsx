@@ -5,10 +5,22 @@ import { accendBy, decendBy } from "@/utils/sorts";
 import { redirect, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
-export default function Leaderboard({ data }) {
-  const [userData, setData] = useState(data);
-  const [sortByFunction, setSortByFunction] = useState(() => () => {});
-  const [sortByProp, setSortByProp] = useState("name");
+export type TUserData = {
+  name: string;
+  wins: number;
+}
+
+type TSortProp = "wins" | "name" | undefined
+type TCompFunc = (a: any, b: any) => 0 | 1 | -1
+type TSortFunc = (p: TSortProp) => TCompFunc;
+
+export type TProps = {
+  data: TUserData[];
+}
+export default function Leaderboard({ data }: TProps) {
+  const [userData, setData] = useState<TUserData[]>(data);
+  const [sortByFunction, setSortByFunction] = useState<TSortFunc>((undefined) => () => 0);
+  const [sortByProp, setSortByProp] = useState<TSortProp>("name");
 
   const params = useSearchParams();
 
@@ -16,18 +28,18 @@ export default function Leaderboard({ data }) {
 
   const { results = [], filter, setFilter } = useFilter(userData);
 
-  const setSortBy = (prop) => () => {
-    setSortByFunction((state) => {
+  const setSortBy = (prop: TSortProp) => () => {
+    setSortByFunction((state: any) => {
       if (sortByProp === prop && state === accendBy) return decendBy;
-      return accendBy;
+      return accendBy as any;
     });
     setSortByProp(() => prop);
   };
 
-  const sortedData = results ? results.sort(sortByFunction(sortByProp)) : [];
+  const sortedData = results ? results.sort(sortByFunction(sortByProp) as TCompFunc) : [];
 
   const handleDelete = useCallback(
-    (name) => () => {
+    (name: string) => () => {
       setData((prev) => prev.filter((item) => item.name != name));
     },
     []
